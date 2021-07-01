@@ -18,29 +18,17 @@
         "@typescript-eslint"
       ],
       "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "prettier",
         "prettier/@typescript-eslint"
       ],
       "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ],
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-namespace": "off",
         "block-scoped-var": "error",
         "eqeqeq": "error",
         "no-var": "error",
@@ -73,8 +61,7 @@
         "*.html"
       ],
       "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "prettier"
+        "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {}
     }

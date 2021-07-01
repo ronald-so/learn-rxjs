@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-stopwatch',
   templateUrl: './stopwatch.component.html',
-  styleUrls: ['./stopwatch.component.scss']
+  styleUrls: ['./stopwatch.component.scss'],
 })
 export class StopwatchComponent implements OnInit {
   timer: number;
@@ -22,8 +22,10 @@ export class StopwatchComponent implements OnInit {
         counter++;
         observer.next(counter);
       }, 100);
-      return function unsubscribe() { clearInterval(interval) };
-    })
+      return function unsubscribe() {
+        clearInterval(interval);
+      };
+    });
     this.builtInTenthSecondInterval$ = interval(100);
   }
 
@@ -32,13 +34,9 @@ export class StopwatchComponent implements OnInit {
   }
 
   displayAsTenthOfSeconds(): void {
-    this.builtInTenthSecondInterval$
-      .pipe(
-        map(tenthSecond => tenthSecond / 10),
-      )
-      .subscribe(res => {
-        this.timer = res;
-      })
+    this.builtInTenthSecondInterval$.pipe(map(tenthSecond => tenthSecond / 10)).subscribe(res => {
+      this.timer = res;
+    });
   }
 
   startButtonClicked(): void {
@@ -47,6 +45,6 @@ export class StopwatchComponent implements OnInit {
   }
 
   stopButtonClicked(): void {
-    console.log('Stop button clicked')
+    console.log('Stop button clicked');
   }
 }
