@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { interval, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { interval, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stopwatch',
@@ -11,6 +11,7 @@ export class StopwatchComponent implements OnInit {
   timer: number;
   manualTenthSecondInterval$: Observable<any>;
   builtInTenthSecondInterval$: Observable<any>;
+  stopClick$ = new Subject();
 
   constructor() {
     this.timer = 0;
@@ -26,6 +27,7 @@ export class StopwatchComponent implements OnInit {
         clearInterval(interval);
       };
     });
+
     this.builtInTenthSecondInterval$ = interval(100);
   }
 
@@ -34,9 +36,14 @@ export class StopwatchComponent implements OnInit {
   }
 
   displayAsTenthOfSeconds(): void {
-    this.builtInTenthSecondInterval$.pipe(map(tenthSecond => tenthSecond / 10)).subscribe(res => {
-      this.timer = res;
-    });
+    this.builtInTenthSecondInterval$
+      .pipe(
+        map(tenthSecond => tenthSecond / 10),
+        takeUntil(this.stopClick$),
+      )
+      .subscribe(res => {
+        this.timer = res;
+      });
   }
 
   startButtonClicked(): void {
@@ -45,6 +52,8 @@ export class StopwatchComponent implements OnInit {
   }
 
   stopButtonClicked(): void {
-    console.log('Stop button clicked');
+    console.log('Start button clicked');
+    this.stopClick$.next();
+    this.stopClick$.subscribe();
   }
 }
